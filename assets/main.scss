@@ -1,0 +1,62 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@import "minima";
+
+details {
+  padding: 0px 0px;
+  border: none;
+  border-top: 1px solid $grey-color-light;
+  border-bottom: 1px solid $grey-color-light;
+  margin-bottom: 15px;
+}
+
+details summary {
+  background: $background-color;
+  padding: 5px 5px;
+  outline: none;
+  font-size: 120%;
+  border: none;
+  color: #EEEEFE;
+}
+
+details[open] {
+  border: none;
+  border-top: 1px solid $grey-color-light;
+  border-bottom: 1px solid $grey-color-light;
+}
+
+details[open] summary {
+  margin-bottom: 10px;
+  border: none;
+  border-bottom: 1px solid $grey-color-light;
+  color: $grey-color-light;
+}
+
+details summary:hover {
+  background: #EEEEFE;
+  cursor: pointer;
+}
+
+details[open] summary:hover {
+  background: $grey-color-light;
+  cursor: pointer;
+}
+
+span.summary {
+  color: $text-color;
+}
+
+span.summary-right {
+  color: $text-color;
+  float: right;
+}
+
+span.grey-color {
+  color: $grey-color;
+}
+
+span.small-font {
+  font-size: 70%;
+}
