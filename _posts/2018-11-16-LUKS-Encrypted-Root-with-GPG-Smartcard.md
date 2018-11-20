@@ -9,7 +9,7 @@ I used to use a static password stored in an yubikey to protect LUKS root on my 
 I generally followed this [link](https://wiki.majic.rs/Openpgp/protecting_luks_decryption_key_in_debian_jessie_us).
 
 # How to
-I use Debian stretch, and I have already setup an LUKS partition on `/dev/nvme0n1p6`. Login as `root` user, and following these steps.
+I use Debian stretch, and I have already setup an LUKS partition on a partition whose `UUID` is `<UUID>`. Login as `root` user, and following these steps.
 
 1. Install necessary packages.
 ```bash
@@ -33,29 +33,35 @@ gpg> trust
 ```
 4. Generate a password file for LUKS and setup it as LUKS's password.
 ```bash
-dd if=/dev/random of=/etc/luks_gpg/disk.key bs=1 count=256
-cryptsetup luksAddKey /dev/nvme0n1p6 /etc/luks_gpg/disk.key
+dd if=/dev/random of=/etc/luks_gpg/<UUID>.key bs=1 count=256
+cryptsetup luksAddKey /dev/nvme0n1p6 /etc/luks_gpg/<UUID>.key
 ```
 5. Use your public key to encrypt the key and safely delete it.
 ```bash
-gpg --homedir /etc/luks_gpg --encrypt --recipient you@example.com /etc/luks_gpg/disk.key
-shred -u /etc/luks_gpg/disk.key
+gpg --homedir /etc/luks_gpg --encrypt --recipient you@example.com /etc/luks_gpg/<UUID>.key
+shred -u /etc/luks_gpg/<UUID>.key
 ```
 6. Add `/etc/luks_gpg/decrypt.sh` as decryption script.
 ```
 #!/bin/sh
+UUID=`basename $0`
 export GNUPGHOME=/etc/luks_gpg/
-gpg --no-tty --decrypt /etc/luks_gpg/disk.key.gpg
+gpg --no-tty --decrypt "/etc/luks_gpg/$UUID.key.gpg"
 ```
 7. Don't forget to setup permission for it.
 ```bash
 chmod +x /etc/luks_gpg/decrypt.sh
 ```
-8. Update `/etc/crypttab` by appending the following to each LUKS partition.
+8. I applied a simple trick so that I could use different password for different partition easily, for each parition with different `<UUID>`, we could create a soft link `/etc/luks_gpg/<UUID>` to `/etc/luks_gpg/decrypt.sh`.
+```bash
+cd /etc/luks_gpg
+ln -s decrypt.sh <UUID>
 ```
-,keyscript=/etc/luks_gpg/decrypt.sh
+9. Here is the trick. Update `/etc/crypttab` by appending the following to each LUKS partition with `UUID` of `<UUID>`.
 ```
-9. Add `/etc/initramfs-tools/hooks/luks_gpg` to include necessary binaries as well as `$GNUPGHOME` in initramfs.
+,keyscript=/etc/luks_gpg/<UUID>
+```
+10. Add `/etc/initramfs-tools/hooks/luks_gpg` to include necessary binaries as well as `$GNUPGHOME` in initramfs.
 ```
 #!/bin/sh
 set -e
@@ -80,17 +86,17 @@ copy_exec /usr/bin/pinentry-curses
 copy_exec /usr/lib/gnupg/scdaemon
 exit 0
 ```
-10. Setup permissions for it.
+11. Setup permissions for it.
 ```bash
 chown root:root /etc/initramfs-tools/hooks/luks_gpg
 chmod 750 /etc/initramfs-tools/hooks/luks_gpg
 ```
-11. Before updating the initramfs, you need to trigger a card-edit, or `scdaemon` would not be correctly triggered during boot.
+12. Before updating the initramfs, you need to trigger a card-edit, or `scdaemon` would not be correctly triggered during boot.
 ```bash
 export GNUPGHOME=/etc/luks_gpg/
 gpg --card-edit
 ```
-12. Finally update the initramfs.
+13. Finally update the initramfs.
 ```bash
 update-initramfs -u
 ```
