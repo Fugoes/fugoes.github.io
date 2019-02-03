@@ -5,7 +5,7 @@ date: 2018-02-03 11:38:00 +0800
 categories: Computer Network
 ---
 
-[Babeld](https://github.com/jech/babeld) is a loop-avoiding distance-vector routing protocol. It could auto update link cost according to network delay, which is different from other distance-vector routing protocol like RIP. This unique feature makes it useful for personal overlay network. [Wireguard](https://www.wireguard.com/) is a simple and fast VPN layer 3 VPN software.
+[Babeld](https://github.com/jech/babeld) is a loop-avoiding distance-vector routing protocol. It could auto update link cost according to network delay, which is different from other distance-vector routing protocols like RIP. This unique feature makes it useful for personal overlay network. [Wireguard](https://www.wireguard.com/) is a simple and fast layer 3 VPN software.
 
 Wireguard doesn't support IPv6 multicast, which is used by Babeld to do neighbor discovery. Wireguard forwards packets by matching `allowed-ips` option for its node. For a central node which other nodes connect to, you could decide which peer to forward a packet to by including the packet's destination IPv6 address in the peer's `allowed-ips`. These `allowed-ips` works like some kind of routing table. However, `allowed-ips` for different peers cannot overlap, which means you can not assign one address to multiple peers' `allowed-ips`. As a result, you could only assign the multicast IPv6 address to one peer, and other peers would never receive `Babeld Hello` message from this central node. So you could only use Wireguard as a point-to-point layer 3 tunnel to run Babeld over it, or Babeld would fail to discover all links. As a result, for a n nodes full mesh network, each nodes need a Wireguard tunnel to all other n - 1 nodes.
 
