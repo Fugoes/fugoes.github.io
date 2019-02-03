@@ -34,7 +34,7 @@ gpg> trust
 4. Generate a password file for LUKS and setup it as LUKS's password.
 ```bash
 dd if=/dev/random of=/etc/luks_gpg/<UUID>.key bs=1 count=256
-cryptsetup luksAddKey /dev/nvme0n1p6 /etc/luks_gpg/<UUID>.key
+cryptsetup luksAddKey /dev/disk/by-uuid/<UUID> /etc/luks_gpg/<UUID>.key
 ```
 5. Use your public key to encrypt the key and safely delete it.
 ```bash
