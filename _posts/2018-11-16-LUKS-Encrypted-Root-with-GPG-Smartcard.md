@@ -3,9 +3,10 @@ layout: post
 title: "LUKS Encrypted Root with GPG Smartcard"
 date: 2018-11-16 15:28:47 +0800
 ---
+
 # Update: 2019/06/22
 
-After upgrade to Debian 10 with `gpg 2.2`, the script is broken. One possible workaround is avoiding the use of `pinentry`, which could be achieved by altering the content of the `/etc/luks_gpg/decrypt.sh` to
+After upgrade to Debian 10 with `gpg 2.2`, the script is broken. One possible workaround is avoiding the use of `pinentry-curses`, which could be achieved by altering the content of the `/etc/luks_gpg/decrypt.sh` to
 ```bash
  #!/bin/sh
 UUID=`basename $0`
