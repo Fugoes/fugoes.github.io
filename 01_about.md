@@ -29,6 +29,10 @@ I was a user of:
 * (Neo)Vim.
 * raspbian.
 
+# Links
+
+* [LionSR](http://sirui-lu.com/)
+
 # Copyright & Legal Information
 
 This blog is licensed under a [Creative Commons Attribution-NonCommercial 4.0 International License](http://creativecommons.org/licenses/by-nc/4.0/).

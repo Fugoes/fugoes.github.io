@@ -3,6 +3,21 @@ layout: post
 title: "LUKS Encrypted Root with GPG Smartcard"
 date: 2018-11-16 15:28:47 +0800
 ---
+# Update: 2019/06/22
+
+After upgrade to Debian 10 with `gpg 2.2`, the script is broken. One possible workaround is avoiding the use of `pinentry`, which could be achieved by altering the content of the `/etc/luks_gpg/decrypt.sh` to
+```bash
+ #!/bin/sh
+UUID=`basename $0`
+export GNUPGHOME=/etc/luks_gpg/
+read -p "pincode: " -s pincode
+echo "$pincode" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 \
+        --no-tty --decrypt "/etc/luks_gpg/$UUID.key.gpg"
+```
+and appending `allow-loopback-pinentry` option to `/etc/luks_gpg/gpg-agent.conf`.
+
+---
+
 # Background
 I used to use a static password stored in an yubikey to protect LUKS root on my Linux machines. It is not safe if losing my yubikey since the static password does not require any pin code. I was always thinking about using yubikey's GPG smartcard capacity to make it safer, and finally I spent about 1 hour getting it work today. XD
 
