@@ -31,7 +31,8 @@ I was a user of:
 
 # Links
 
-* [LionSR](http://sirui-lu.com/)
+* [LionSR](https://sirui-lu.com/)
+* [Wandai\[PG\] BLog](https://twd2.me/)
 
 # Copyright & Legal Information
 
