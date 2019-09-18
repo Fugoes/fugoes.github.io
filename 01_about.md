@@ -15,10 +15,9 @@ I am a user of:
 * XMonad.
 * ZFS on LVM on LUKS.
 * Evil powered Emacs.
-* org-mode/LaTeX
-* Arch Linux arm (on a raspberry pi).
+* org-mode/LaTeX.
 * Tinc.
-* git-annex/syncthing.
+* syncthing.
 * YubiKey 4.
 * Libreboot powered ThinkPad X200.
 
@@ -28,6 +27,8 @@ I was a user of:
 * Btrfs.
 * (Neo)Vim.
 * raspbian.
+* git-annex.
+* Arch Linux arm (on a raspberry pi).
 
 # Links
 
