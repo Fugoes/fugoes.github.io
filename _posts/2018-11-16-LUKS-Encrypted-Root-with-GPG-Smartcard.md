@@ -6,9 +6,9 @@ date: 2018-11-16 15:28:47 +0800
 
 # Update: 2019/06/22
 
-After upgrade to Debian 10 with `gpg 2.2`, the script is broken. One possible workaround is avoiding the use of `pinentry-curses`, which could be achieved by altering the content of the `/etc/luks_gpg/decrypt.sh` to
+After upgrade to Debian 10 with `gpg 2.2`, the script is broken. One possible workaround is avoiding the use of `pinentry-curses`, which could be achieved by altering the content of the file `/etc/luks_gpg/decrypt.sh` to
 ```bash
- #!/bin/sh
+#!/bin/sh
 UUID=`basename $0`
 export GNUPGHOME=/etc/luks_gpg/
 read -p "pincode: " -s pincode
@@ -20,12 +20,12 @@ and appending `allow-loopback-pinentry` option to `/etc/luks_gpg/gpg-agent.conf`
 ---
 
 # Background
-I used to use a static password stored in an yubikey to protect LUKS root on my Linux machines. It is not safe if losing my yubikey since the static password does not require any pin code. I was always thinking about using yubikey's GPG smartcard capacity to make it safer, and finally I spent about 1 hour getting it work today. XD
+I used to protect LUKS root on my Linux machines with a static password stored in my yubikey. It is not safe if losing my yubikey, since the static password does not require any pin code. I was always thinking about using yubikey's GPG smartcard capacity to make it safer, and finally I spent about 1 hour getting it work today. XD
 
 I generally followed this [link](https://wiki.majic.rs/Openpgp/protecting_luks_decryption_key_in_debian_jessie_us).
 
 # How to
-I use Debian stretch, and I have already setup an LUKS partition on a partition whose `UUID` is `<UUID>`. Login as `root` user, and following these steps.
+I use Debian stretch, and I have already setup an LUKS partition on a partition whose `UUID` is `<UUID>`. Login as `root` user, and follow these steps.
 
 1. Install necessary packages.
 ```bash
