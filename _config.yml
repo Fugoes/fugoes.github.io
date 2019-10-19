@@ -23,6 +23,10 @@ github_username: Fugoes
 
 # Build settings
 markdown: kramdown
+
+kramdown:
+  math_engine: false
+
 theme: minima
 plugins:
   - jekyll-feed
