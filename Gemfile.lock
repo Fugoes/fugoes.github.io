@@ -70,7 +70,6 @@ DEPENDENCIES
   jekyll
   jekyll-feed (~> 0.6)
   minima
-  tzinfo-data
 
 BUNDLED WITH
-   1.17.3
+   1.17.2
