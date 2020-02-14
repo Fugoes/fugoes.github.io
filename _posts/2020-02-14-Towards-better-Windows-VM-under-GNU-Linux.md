@@ -35,7 +35,7 @@ vboxmanage storageattach <VM name> \
     --medium '<path/to/xxx.vdi>'
 ```
 
-The `--discard on` option enables discard support. However, the document says this feature is only supported with VDI disk file format. First, we cannot use raw block device for VDI disk file. Second,  the VDI file's allocation unit is 1MB, only when all disk pages in same MB boundary are `unmap`ed, the space should be released. NTFS allocate disk space in 4K pages by default. I succeed to change the allocation unit of NTFS to 1MB on Windows VM installation: just open a command prompt before the installation start with `Shift-F10`:
+The `--discard on` option enables discard support. However, the document says this feature is only supported with VDI disk file format. First, we cannot use raw block device for VDI disk file. Second,  the VDI file's allocation unit is 1MB, only when all disk pages in same MB boundary are `unmap`ed, the space should be released. NTFS allocates disk space in 4K pages by default. I succeed to change the allocation unit of NTFS to 1MB on Windows VM installation: just open a command prompt before the installation start with `Shift-F10`:
 
 ```
 diskpart
@@ -50,7 +50,7 @@ and then continue with the installation. However, I experience lock up frequentl
 
 # vmware workstation player
 
-So there is only one choice left, the vmware workstation player. It do provide good graphics performance over all the other VM softwares. The only shortcoming is no support for passing `unmap` to the raw block device.
+So there is only one choice left, the vmware workstation player. It does provide good graphics performance over all the other VM softwares. The only shortcoming is no support for passing `unmap` to the raw block device.
 
 As a workaround, I found a way to create a 'dual bootable' Windows VM: it could boot under both vmware workstation player and qemu. When a trimming is needed, I could boot it with qemu and do the trimming.
 
@@ -65,7 +65,7 @@ sudo zfs create -V 64G -s -b $((128 * 1024)) -o primarycache=metadata <some pool
 sudo setfacl -m u:<user name>:rw /dev/zvol/<some pool>/win10
 ```
 
-The `-s` stands for sparse. The `-b` option set the block size. The `-o primarycache=metadata` avoids zfs' ARC cache the VM's disk inside host memory. The `setfacl` changes ACL to the volume, so that no root permission is required to access the volume. After formating the VM's NTFS with 128K allocation unit, the zfs' lz4 compression works great for the volume (hopefully it should perform better than NTFS' compression).
+The `-s` stands for sparse. The `-b` option set the block size. The `-o primarycache=metadata` avoids zfs' ARC cache the VM's disk inside host memory. The `setfacl` changes ACL to the volume, so that accessing the volume does not require root permission. After formating the VM's NTFS with 128K allocation unit, the zfs' lz4 compression works great for the volume (hopefully it should perform better than NTFS' compression).
 
 # Conclusion
 
