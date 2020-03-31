@@ -36,6 +36,7 @@ I was a user of:
 * [LionSR](https://sirui-lu.com/)
 * [Wandai\[PG\] BLog](https://twd2.me/)
 * [Just Facts](https://blog.dang.fan/en/)
+* [Harry Chen's Blog](https://harrychen.xyz/)
 
 # Copyright & Legal Information
 
