@@ -32,8 +32,11 @@ I was a user of:
 
 # Links
 
+* [Kaixin Yang](https://sceneryinmirror.github.io/)
 * [LionSR](https://sirui-lu.com/)
 * [Wandai\[PG\] BLog](https://twd2.me/)
+* [Just Facts](https://blog.dang.fan/en/)
+* [Harry Chen's Blog](https://harrychen.xyz/)
 
 # Copyright & Legal Information
 
